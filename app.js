@@ -8,4 +8,4 @@ http.createServer((req, res) => {
     return res.end('서버에 문제가 생겼습니다.')
   }
   console.log("어떤 요청이 들어오는지 확인", "url -> ", req.url, "method -> ", req.method)
-})
+}).listen(8080)
