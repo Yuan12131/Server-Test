@@ -1,0 +1,25 @@
+#root{
+  margin:0;
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#root > div {
+  width: 700px;
+  height: 500px;
+  background-color: beige;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+input{
+  font-size: 30px;
+  width: 500px;
+  height: 100px;
+  margin: 30px;
+}
