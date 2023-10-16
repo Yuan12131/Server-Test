@@ -8,4 +8,14 @@ http.createServer((req, res) => {
     return res.end('서버에 문제가 생겼습니다.')
   }
   console.log("어떤 요청이 들어오는지 확인", "url -> ", req.url, "method -> ", req.method)
+
+  if(req.url === '/' && req.method === 'GET'){
+    fs.readFile('./static/index.html', 'utf8', (err,data) => {
+      if (err){
+        serverErrorLog();
+      }
+      res.writeHead(200, {'Content-Type' : 'text/html'});
+      res.end(data);
+    });
+  } 
 }).listen(8080)
