@@ -2,10 +2,14 @@ const http = require('http');
 const fs = require('fs');
 
 const server = http.createServer((req, res) => {
-  // function severErrorLog(){
-  //   res.writeHead(500);
-  //   return res.end('서버에 문제가 생긴 것 같습니다.')
-  // };
+  function severErrorLog(){
+    res.writeHead(500);
+    return res.end()
+  };
+  console.log(req.method);
+  console.log(req.url);
+  
+  const pageURL = req.url;
 
   console.log("어떤 요청이 들어오는지 확인", "url -> ", req.url, "method -> ", req.method);
   // 라우팅 처리 제작 두개의 요청 데이터를 확인해야 한다.
@@ -14,7 +18,7 @@ const server = http.createServer((req, res) => {
   if(req.url === '/' && req.method === 'GET'){
     fs.readFile('./static/index.html', 'utf8', (err, data) => {
       if (err) {
-        serverErrorLog('서버에 문제가 생긴 것 같습니다.');
+        serverErrorLog();
       }
       res.writeHead(200, {'Content-Type' : 'text/html'});
       res.end(data)
@@ -23,16 +27,28 @@ const server = http.createServer((req, res) => {
   } else if (req.url === '/style.css' && req.method === 'GET'){
     fs.readFile('./static/style.css', 'utf8', (err, data) => {
       if (err){
-        serverErrorLog('서버에 문제가 생긴 것 같습니다.');
+        serverErrorLog();
       }
       res.writeHead(200, {'Content-Type' : 'text/css'});
+      res.end(data);
+    });
+
+  } else if (pageURL.startsWith("/img/")) {
+    let imageName = path.basename(req.url);
+    let imagePath = "./img/" + imageName;
+
+    fs.readFile(imagePath, (err, data) => {
+      if (err) {
+        serverErrorLog();
+      }
+      res.writeHead(200, { "Contant-Type": "image/jpg" });
       res.end(data);
     });
 
   } else {
     res.writeHead(404);
     res.end('Not Found')
-  }
+  } 
 })
 const PORT = 3000;
 server.listen(PORT, () => {
